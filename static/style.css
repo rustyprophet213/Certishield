@@ -1,0 +1,140 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Consolas', monospace;
+    background: #0b0f19;
+    color: #e2e8f0;
+    overflow-x: hidden;
+}
+
+.bg-grid {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(0,255,170,0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,255,170,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 48px;
+    color: #00ffaa;
+    letter-spacing: 3px;
+}
+
+header p {
+    color: #94a3b8;
+}
+
+.card {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(0,255,170,0.2);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 15px rgba(0,255,170,0.1);
+    text-align: center;
+}
+
+.glow {
+    box-shadow: 0 0 25px rgba(0,255,170,0.4);
+}
+
+input[type="file"] {
+    margin: 15px 0;
+    color: #e2e8f0;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-primary {
+    background: #00ffaa;
+    color: #0b0f19;
+}
+
+.btn-success {
+    background: #22c55e;
+    color: white;
+}
+
+.btn-warning {
+    background: #f59e0b;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.85;
+    transform: scale(1.05);
+}
+
+.wallet-status {
+    margin-top: 10px;
+    color: #38bdf8;
+}
+
+.result {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.loader {
+    border: 5px solid #1e293b;
+    border-top: 5px solid #00ffaa;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.tx-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+.tx-section {
+    margin-top: 20px;
+}
+
+.tx-section button {
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
