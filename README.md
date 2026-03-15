@@ -6,14 +6,20 @@ CERTISHIELD is a decentralized Web3 application that prevents certificate fraud 
 
 ---
 
-## 🚀 Live Concept
+## 🌐 Live Demo
 
-CERTISHIELD allows institutions to:
+**[https://certishield.vercel.app](https://certishield.vercel.app)**
+
+---
+
+## 🚀 Features
 
 - 📄 Register certificate hashes on blockchain
 - 🔒 Prevent tampering or forgery
 - 🔍 Verify certificate authenticity publicly
 - ⛓ Provide immutable proof via Etherscan
+- 🖥 Professional dark UI with drag-and-drop file upload
+- 🔔 Real-time toast notifications and transaction feedback
 
 ---
 
@@ -36,8 +42,9 @@ No actual certificates are stored on-chain.
 - MetaMask Wallet
 - Web3.js
 - Flask (Python Backend)
-- HTML/CSS Cybersecurity UI
+- Inter & JetBrains Mono fonts
 - SHA-256 Cryptographic Hashing
+- Hosted on Vercel
 
 ---
 
@@ -45,9 +52,10 @@ No actual certificates are stored on-chain.
 
 Deployed on Sepolia Testnet.
 
-Contract Address: 0xc16Fc9Ea835930CC4042b85D1c73ED82D3761A88
+Contract Address: `0xc16Fc9Ea835930CC4042b85D1c73ED82D3761A88`
+
 Etherscan: https://sepolia.etherscan.io/address/0xc16Fc9Ea835930CC4042b85D1c73ED82D3761A88
 
-Screenshots:
+---
 
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/dcf30da3-ea6f-4d1d-a350-7ba23ac0e28e" />
+Made with ❤️ by Dhruv Rajpal

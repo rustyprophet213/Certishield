@@ -657,3 +657,16 @@ body {
 
 /* ── Utilities ── */
 .hidden { display: none !important; }
+
+/* ── Footer ── */
+.footer {
+    text-align: center;
+    padding: 28px 24px 40px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.footer-name {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
