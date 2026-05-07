@@ -1,259 +1,499 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CertiShield — Blockchain Certificate Verification</title>
-    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>LandRegistry — Blockchain Property Verification</title>
+        <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}"
+        />
+    </head>
+    <body>
+        <!-- Toast Container -->
+        <div id="toastContainer" class="toast-container"></div>
 
-    <!-- Toast Container -->
-    <div id="toastContainer" class="toast-container"></div>
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="navbar-inner">
-            <div class="navbar-brand">
-                <div class="brand-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                    </svg>
-                </div>
-                <span class="brand-name">CertiShield</span>
-            </div>
-            <div class="navbar-meta">
-                <span class="network-badge">
-                    <span class="network-dot"></span>
-                    Sepolia Testnet
-                </span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Layout -->
-    <main class="main">
-        <div class="page-wrapper">
-
-            <!-- Page Header -->
-            <div class="page-header">
-                <h1 class="page-title">Certificate Verification</h1>
-                <p class="page-subtitle">Immutable blockchain-based integrity system for institutional credentials &nbsp;·&nbsp; Contract: <a href="https://sepolia.etherscan.io/address/0x9B3078080Cec7aF658a4771A191BBeF0139FB563" target="_blank" class="contract-link">0x9B30…B563</a></p>
-            </div>
-
-            <!-- Wallet Card -->
-            <section class="section-card" id="walletSection">
-                <div class="section-header">
-                    <div class="section-icon wallet-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-inner">
+                <div class="navbar-brand">
+                    <div class="brand-icon">
+                        <svg
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path
+                                d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                            />
                         </svg>
                     </div>
-                    <div>
-                        <h2 class="section-title">Wallet Connection</h2>
-                        <p class="section-desc">Connect your MetaMask wallet to interact with the blockchain</p>
-                    </div>
-                    <div id="walletStatus" class="wallet-badge hidden">
-                        <span class="wallet-dot"></span>
-                        <span id="walletAddressShort">Connected</span>
-                    </div>
+                    <span class="brand-name">CertiShield</span>
                 </div>
-                <div class="section-body">
-                    <button class="btn btn-primary" id="connectBtn" onclick="connectWallet()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                        </svg>
-                        Connect MetaMask
-                    </button>
-                    <p id="wallet" class="wallet-address hidden"></p>
+                <div class="navbar-meta">
+                    <span class="network-badge">
+                        <span class="network-dot"></span>
+                        Sepolia Testnet
+                    </span>
                 </div>
-            </section>
+            </div>
+        </nav>
 
-            <!-- Two Column Grid -->
-            <div class="two-col">
+        <!-- Main Layout -->
+        <main class="main">
+            <div class="page-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1 class="page-title">LandRegistry (Blockchain Property Verification)</h1>
+                    <p class="page-subtitle">
+                        Immutable blockchain-based integrity system for
+                        institutional credentials &nbsp;·&nbsp; Contract:
+                        <a
+                            href="https://sepolia.etherscan.io/address/0x9B3078080Cec7aF658a4771A191BBeF0139FB563"
+                            target="_blank"
+                            class="contract-link"
+                            >0x9B30…B563</a
+                        >
+                    </p>
+                </div>
 
-                <!-- Register Card -->
-                <section class="section-card">
+                <!-- Wallet Card -->
+                <section class="section-card" id="walletSection">
                     <div class="section-header">
-                        <div class="section-icon register-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                                <line x1="12" y1="18" x2="12" y2="12"/>
-                                <line x1="9" y1="15" x2="15" y2="15"/>
+                        <div class="section-icon wallet-icon">
+                            <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <rect
+                                    x="2"
+                                    y="7"
+                                    width="20"
+                                    height="14"
+                                    rx="2"
+                                    ry="2"
+                                />
+                                <path
+                                    d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"
+                                />
                             </svg>
                         </div>
                         <div>
-                            <h2 class="section-title">Register Certificate</h2>
-                            <p class="section-desc">Hash and store on Ethereum</p>
+                            <h2 class="section-title">Wallet Connection</h2>
+                            <p class="section-desc">
+                                Connect your MetaMask wallet to interact with
+                                the blockchain
+                            </p>
+                        </div>
+                        <div id="walletStatus" class="wallet-badge hidden">
+                            <span class="wallet-dot"></span>
+                            <span id="walletAddressShort">Connected</span>
                         </div>
                     </div>
                     <div class="section-body">
-                        <div class="upload-zone" id="registerDropzone" onclick="document.getElementById('fileInput').click()">
-                            <div class="upload-icon">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="16 16 12 12 8 16"/>
-                                    <line x1="12" y1="12" x2="12" y2="21"/>
-                                    <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
-                                </svg>
-                            </div>
-                            <p class="upload-label">Drop PDF here or <span class="upload-link">browse</span></p>
-                            <p class="upload-hint">Only PDF files accepted</p>
-                            <input type="file" id="fileInput" accept="application/pdf" class="file-input-hidden">
-                        </div>
-                        <div id="registerFileName" class="file-name-display hidden"></div>
-                        <button class="btn btn-success btn-full" onclick="addCertificate()">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="20 6 9 17 4 12"/>
+                        <button
+                            class="btn btn-primary"
+                            id="connectBtn"
+                            onclick="connectWallet()"
+                        >
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"
+                                />
+                                <path
+                                    d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"
+                                />
                             </svg>
-                            Register on Blockchain
+                            Connect MetaMask
                         </button>
+                        <p id="wallet" class="wallet-address hidden"></p>
                     </div>
                 </section>
 
-                <!-- Verify Card -->
-                <section class="section-card">
-                    <div class="section-header">
-                        <div class="section-icon verify-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h2 class="section-title">Verify Certificate</h2>
-                            <p class="section-desc">Check authenticity on-chain</p>
-                        </div>
-                    </div>
-                    <div class="section-body">
-                        <div class="upload-zone" id="verifyDropzone" onclick="document.getElementById('verifyFileInput').click()">
-                            <div class="upload-icon">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="11" cy="11" r="8"/>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <!-- Two Column Grid -->
+                <div class="two-col">
+                    <!-- Register Card -->
+                    <section class="section-card">
+                        <div class="section-header">
+                            <div class="section-icon register-icon">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                                    />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="12" y1="18" x2="12" y2="12" />
+                                    <line x1="9" y1="15" x2="15" y2="15" />
                                 </svg>
                             </div>
-                            <p class="upload-label">Drop PDF here or <span class="upload-link">browse</span></p>
-                            <p class="upload-hint">Only PDF files accepted</p>
-                            <input type="file" id="verifyFileInput" accept="application/pdf" class="file-input-hidden">
-                        </div>
-                        <div id="verifyFileName" class="file-name-display hidden"></div>
-                        <button class="btn btn-verify btn-full" onclick="verifyCertificate()">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"/>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            </svg>
-                            Verify Authenticity
-                        </button>
-                        <!-- Result -->
-                        <div id="resultBox" class="result-box hidden">
-                            <div class="result-icon" id="resultIcon"></div>
                             <div>
-                                <p id="result" class="result-text"></p>
-                                <p id="resultSub" class="result-sub"></p>
+                                <h2 class="section-title">
+                                    Register Certificate
+                                </h2>
+                                <p class="section-desc">
+                                    Hash and store on Ethereum
+                                </p>
                             </div>
                         </div>
-                    </div>
-                </section>
-
-            </div>
-
-            <!-- Transaction Result -->
-            <section id="txSection" class="section-card tx-card hidden">
-                <div class="section-header">
-                    <div class="section-icon tx-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="section-title">Transaction Confirmed</h2>
-                        <p class="section-desc">Certificate successfully registered on Ethereum Sepolia</p>
-                    </div>
-                </div>
-                <div class="section-body">
-                    <div class="tx-hash-box">
-                        <label class="tx-label">Transaction Hash</label>
-                        <div class="tx-hash-row">
-                            <code id="txHash" class="tx-hash"></code>
-                            <button class="btn-copy" onclick="copyTxHash()" title="Copy hash">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        <div class="section-body">
+                            <div
+                                class="upload-zone"
+                                id="registerDropzone"
+                                onclick="document.getElementById('fileInput').click()"
+                            >
+                                <div class="upload-icon">
+                                    <svg
+                                        width="28"
+                                        height="28"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <polyline points="16 16 12 12 8 16" />
+                                        <line x1="12" y1="12" x2="12" y2="21" />
+                                        <path
+                                            d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"
+                                        />
+                                    </svg>
+                                </div>
+                                <p class="upload-label">
+                                    Drop PDF here or
+                                    <span class="upload-link">browse</span>
+                                </p>
+                                <p class="upload-hint">
+                                    Only PDF files accepted
+                                </p>
+                                <input
+                                    type="file"
+                                    id="fileInput"
+                                    accept="application/pdf"
+                                    class="file-input-hidden"
+                                />
+                            </div>
+                            <div
+                                id="registerFileName"
+                                class="file-name-display hidden"
+                            ></div>
+                            <button
+                                class="btn btn-success btn-full"
+                                onclick="addCertificate()"
+                            >
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <polyline points="20 6 9 17 4 12" />
                                 </svg>
+                                Register on Blockchain
                             </button>
                         </div>
-                    </div>
-                    <a id="etherscanLink" target="_blank" class="btn btn-outline">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                            <polyline points="15 3 21 3 21 9"/>
-                            <line x1="10" y1="14" x2="21" y2="3"/>
-                        </svg>
-                        View on Etherscan
-                    </a>
+                    </section>
+
+                    <!-- Verify Card -->
+                    <section class="section-card">
+                        <div class="section-header">
+                            <div class="section-icon verify-icon">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                                    />
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="section-title">
+                                    Verify Certificate
+                                </h2>
+                                <p class="section-desc">
+                                    Check authenticity on-chain
+                                </p>
+                            </div>
+                        </div>
+                        <div class="section-body">
+                            <div
+                                class="upload-zone"
+                                id="verifyDropzone"
+                                onclick="document.getElementById('verifyFileInput').click()"
+                            >
+                                <div class="upload-icon">
+                                    <svg
+                                        width="28"
+                                        height="28"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <circle cx="11" cy="11" r="8" />
+                                        <line
+                                            x1="21"
+                                            y1="21"
+                                            x2="16.65"
+                                            y2="16.65"
+                                        />
+                                    </svg>
+                                </div>
+                                <p class="upload-label">
+                                    Drop PDF here or
+                                    <span class="upload-link">browse</span>
+                                </p>
+                                <p class="upload-hint">
+                                    Only PDF files accepted
+                                </p>
+                                <input
+                                    type="file"
+                                    id="verifyFileInput"
+                                    accept="application/pdf"
+                                    class="file-input-hidden"
+                                />
+                            </div>
+                            <div
+                                id="verifyFileName"
+                                class="file-name-display hidden"
+                            ></div>
+                            <button
+                                class="btn btn-verify btn-full"
+                                onclick="verifyCertificate()"
+                            >
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line
+                                        x1="21"
+                                        y1="21"
+                                        x2="16.65"
+                                        y2="16.65"
+                                    />
+                                </svg>
+                                Verify Authenticity
+                            </button>
+                            <!-- Result -->
+                            <div id="resultBox" class="result-box hidden">
+                                <div class="result-icon" id="resultIcon"></div>
+                                <div>
+                                    <p id="result" class="result-text"></p>
+                                    <p id="resultSub" class="result-sub"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </section>
 
-            <!-- How it Works -->
-            <section class="how-it-works">
-                <h3 class="how-title">How it works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-number">01</div>
-                        <div class="step-content">
-                            <h4>Connect Wallet</h4>
-                            <p>Link your MetaMask wallet to authorise blockchain interactions</p>
+                <!-- Transaction Result -->
+                <section id="txSection" class="section-card tx-card hidden">
+                    <div class="section-header">
+                        <div class="section-icon tx-icon">
+                            <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="section-title">Transaction Confirmed</h2>
+                            <p class="section-desc">
+                                Certificate successfully registered on Ethereum
+                                Sepolia
+                            </p>
                         </div>
                     </div>
-                    <div class="step-divider"></div>
-                    <div class="step">
-                        <div class="step-number">02</div>
-                        <div class="step-content">
-                            <h4>Upload Certificate</h4>
-                            <p>Your PDF is hashed locally via SHA-256 — the file never leaves your device</p>
+                    <div class="section-body">
+                        <div class="tx-hash-box">
+                            <label class="tx-label">Transaction Hash</label>
+                            <div class="tx-hash-row">
+                                <code id="txHash" class="tx-hash"></code>
+                                <button
+                                    class="btn-copy"
+                                    onclick="copyTxHash()"
+                                    title="Copy hash"
+                                >
+                                    <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    >
+                                        <rect
+                                            x="9"
+                                            y="9"
+                                            width="13"
+                                            height="13"
+                                            rx="2"
+                                            ry="2"
+                                        />
+                                        <path
+                                            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
+                        <a
+                            id="etherscanLink"
+                            target="_blank"
+                            class="btn btn-outline"
+                        >
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                                />
+                                <polyline points="15 3 21 3 21 9" />
+                                <line x1="10" y1="14" x2="21" y2="3" />
+                            </svg>
+                            View on Etherscan
+                        </a>
                     </div>
-                    <div class="step-divider"></div>
-                    <div class="step">
-                        <div class="step-number">03</div>
-                        <div class="step-content">
-                            <h4>On-chain Record</h4>
-                            <p>The hash is stored immutably on Ethereum Sepolia via smart contract</p>
-                        </div>
-                    </div>
-                    <div class="step-divider"></div>
-                    <div class="step">
-                        <div class="step-number">04</div>
-                        <div class="step-content">
-                            <h4>Instant Verification</h4>
-                            <p>Anyone can verify authenticity by hashing and comparing on-chain</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
 
+                <!-- How it Works -->
+                <section class="how-it-works">
+                    <h3 class="how-title">How it works</h3>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">01</div>
+                            <div class="step-content">
+                                <h4>Connect Wallet</h4>
+                                <p>
+                                    Link your MetaMask wallet to authorise
+                                    blockchain interactions
+                                </p>
+                            </div>
+                        </div>
+                        <div class="step-divider"></div>
+                        <div class="step">
+                            <div class="step-number">02</div>
+                            <div class="step-content">
+                                <h4>Upload Certificate</h4>
+                                <p>
+                                    Your PDF is hashed locally via SHA-256 — the
+                                    file never leaves your device
+                                </p>
+                            </div>
+                        </div>
+                        <div class="step-divider"></div>
+                        <div class="step">
+                            <div class="step-number">03</div>
+                            <div class="step-content">
+                                <h4>On-chain Record</h4>
+                                <p>
+                                    The hash is stored immutably on Ethereum
+                                    Sepolia via smart contract
+                                </p>
+                            </div>
+                        </div>
+                        <div class="step-divider"></div>
+                        <div class="step">
+                            <div class="step-number">04</div>
+                            <div class="step-content">
+                                <h4>Instant Verification</h4>
+                                <p>
+                                    Anyone can verify authenticity by hashing
+                                    and comparing on-chain
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ by <span class="footer-name">Dhruv Rajpal</span></p>
+        </footer>
+
+        <!-- Global Loader Overlay -->
+        <div id="loaderOverlay" class="loader-overlay hidden">
+            <div class="loader-card">
+                <div class="loader-spinner"></div>
+                <p id="loaderText" class="loader-text">
+                    Processing transaction...
+                </p>
+            </div>
         </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>Made with ❤️ by <span class="footer-name">Dhruv Rajpal</span></p>
-    </footer>
-
-    <!-- Global Loader Overlay -->
-    <div id="loaderOverlay" class="loader-overlay hidden">
-        <div class="loader-card">
-            <div class="loader-spinner"></div>
-            <p id="loaderText" class="loader-text">Processing transaction...</p>
-        </div>
-    </div>
-
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
-</body>
+        <script src="{{ url_for('static', filename='app.js') }}"></script>
+    </body>
 </html>
