@@ -6,3 +6,9 @@ id = "pdFaHEQGRNkYzf3i4HIfT"
 uri = "file://CertiShield_Project_Report.docx"
 type = "word_document"
 title = "CertiShield Project Report"
+
+[[outputs]]
+id = "DaOWdM0QrtcJlWTeKL0mk"
+uri = "file://CertiShield.zip"
+type = "unspecified"
+title = "CertiShield — Full Project ZIP"
