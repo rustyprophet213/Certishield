@@ -8,18 +8,6 @@ const abi = [
         "type": "function"
     },
     {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "inputs": [],
-        "name": "admin",
-        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
         "inputs": [{ "internalType": "string", "name": "hash", "type": "string" }],
         "name": "verifyCertificate",
         "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
@@ -97,18 +85,6 @@ async function addCertificate() {
     if (!account) { showToast("Please connect your wallet first.", "error"); return; }
     const file = document.getElementById("fileInput").files[0];
     if (!file) { showToast("Please select a PDF certificate to register.", "error"); return; }
-
-    // Check admin before sending — only the contract deployer can register
-    try {
-        const adminAddress = await contract.methods.admin().call();
-        if (account.toLowerCase() !== adminAddress.toLowerCase()) {
-            showToast("Only the contract admin can register certificates. Switch to the admin wallet in MetaMask.", "error", 7000);
-            return;
-        }
-    } catch {
-        showToast("Could not verify admin status. Check your connection.", "error");
-        return;
-    }
 
     showLoader(true, "Hashing certificate & sending transaction...");
     try {
