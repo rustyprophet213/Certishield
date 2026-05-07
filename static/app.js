@@ -102,16 +102,8 @@ async function addCertificate() {
     try {
         const hash = await generateHash(file);
 
-        // Estimate gas and add a 20% buffer, capped at 200,000
-        let gasEstimate;
-        try {
-            gasEstimate = await contract.methods.addCertificate(hash).estimateGas({ from: account });
-            gasEstimate = Math.min(Math.ceil(gasEstimate * 1.2), 200000);
-        } catch {
-            gasEstimate = 100000;
-        }
-
-        const tx = await contract.methods.addCertificate(hash).send({ from: account, gas: gasEstimate });
+        // Fixed safe gas limit for a simple mapping write (~50k actual cost)
+        const tx = await contract.methods.addCertificate(hash).send({ from: account, gas: 80000 });
 
         showLoader(false);
         currentTxHash = tx.transactionHash;
