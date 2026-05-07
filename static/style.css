@@ -658,6 +658,15 @@ body {
 /* ── Utilities ── */
 .hidden { display: none !important; }
 
+/* ── Contract link ── */
+.contract-link {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+.contract-link:hover { text-decoration: underline; }
+
 /* ── Footer ── */
 .footer {
     text-align: center;

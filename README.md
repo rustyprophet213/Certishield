@@ -52,9 +52,9 @@ No actual certificates are stored on-chain.
 
 Deployed on Sepolia Testnet.
 
-Contract Address: `0xc16Fc9Ea835930CC4042b85D1c73ED82D3761A88`
+Contract Address: `0x9B3078080Cec7aF658a4771A191BBeF0139FB563`
 
-Etherscan: https://sepolia.etherscan.io/address/0xc16Fc9Ea835930CC4042b85D1c73ED82D3761A88
+Etherscan: https://sepolia.etherscan.io/address/0x9B3078080Cec7aF658a4771A191BBeF0139FB563
 
 ---
 
