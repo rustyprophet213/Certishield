@@ -101,7 +101,17 @@ async function addCertificate() {
     showLoader(true, "Hashing certificate & sending transaction...");
     try {
         const hash = await generateHash(file);
-        const tx = await contract.methods.addCertificate(hash).send({ from: account });
+
+        // Estimate gas and add a 20% buffer, capped at 200,000
+        let gasEstimate;
+        try {
+            gasEstimate = await contract.methods.addCertificate(hash).estimateGas({ from: account });
+            gasEstimate = Math.min(Math.ceil(gasEstimate * 1.2), 200000);
+        } catch {
+            gasEstimate = 100000;
+        }
+
+        const tx = await contract.methods.addCertificate(hash).send({ from: account, gas: gasEstimate });
 
         showLoader(false);
         currentTxHash = tx.transactionHash;
